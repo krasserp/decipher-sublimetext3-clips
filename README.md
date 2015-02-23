@@ -1,4 +1,4 @@
-Decript
+Decipher clips for sublime text 2
 =======
 
 create XML tags like NoteTab Pro (clips)
