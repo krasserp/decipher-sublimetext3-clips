@@ -1,4 +1,4 @@
-import sublime, sublime_plugin,re
+import sublime, sublime_plugin,sys,re
 
 #define survey context
 def returnContext(self):
@@ -8,7 +8,7 @@ def returnContext(self):
         return returnString[11:14]
     else:
         return ' '
-# returns array [input, label,title]
+# returns array [input, label,title] jhg
 def tidyQuestionInput(input):
     input = input.strip()
     input = re.sub(r"^(\w?\d+)\.(\d+)",r"\1_\2",input)
@@ -408,14 +408,14 @@ class makeSurveyCommand(sublime_plugin.TextCommand):
                     
                     headerFooter =[]
                 elif docType =='EBA':
-                    print 'ebay found'
+                    #print 'ebay found'
                     headerFooter = newSurveyEBAY()
                     printPage = "%s\n\n%s\n\n%s" % (headerFooter[0], input, headerFooter[1])
-                    print headerFooter
+                    #print headerFooter
                     headerFooter =[]
                 elif docType =='FMA':
                     headerFooter = newSurveyFMA()
-                    print headerFooter
+                    #print headerFooter
                     printPage = "%s\n\n%s\n\n%s" % (headerFooter[0], input, headerFooter[1])
                     headerFooter =[]
                 elif docType =='GDI':
@@ -432,15 +432,15 @@ class makeSurveyCommand(sublime_plugin.TextCommand):
                     headerFooter =[]
                 else:
                     headerFooter = newSurvey()
-                    print 'in else somehow'
+                    #print 'in else somehow'
                     printPage = "%s\n\n%s\n\n%s" % (headerFooter[0], input, headerFooter[1])
                     headerFooter =[]
 
                 #print headerFooter
                 self.view.replace(edit,sel, printPage)
-        except Exception, e:
-            print 'could not create survey layout'
-            print e
+        except Exception:
+            print ('could not create survey layout')
+            #print (e)
 
 ################# Question types
 class makeRadioCommand(sublime_plugin.TextCommand):
@@ -478,7 +478,7 @@ class makeRadioCommand(sublime_plugin.TextCommand):
 
                     if ("<row" in output) and not ("<col" in output):
                         rowlegend=' rowLegend=\"right\"'
-                        print 'add row legent!!!!!!'
+                        
                     # compose our new radio question
                     if "<comment>" not in input:
                       printPage = "<radio label=\"%s\"%s>\n  <title>%s</title>\n  %s  %s\n</radio>\n<suspend/>" % (label.strip(), rowlegend, title.strip(), comment, output)
@@ -504,9 +504,9 @@ class makeRadioCommand(sublime_plugin.TextCommand):
 
 
                 self.view.replace(edit,sel, printPage)
-        except Exception, e:
-            print "makeRadio clip failed:"
-            print e
+        except Exception:
+            print ("makeRadio clip failed:")
+            
 
 class makeRatingCommand(sublime_plugin.TextCommand):
     def run(self, edit):
@@ -622,9 +622,9 @@ class makeRatingCommand(sublime_plugin.TextCommand):
 
 
                 self.view.replace(edit,sel, printPage)
-        except Exception, e:
-            print "makeRating clip failed:"
-            print e
+        except Exception:
+            print ("makeRating clip failed:")
+            
 
 class makeCheckboxCommand(sublime_plugin.TextCommand):
     def run(self, edit):
@@ -705,8 +705,8 @@ class makeCheckboxCommand(sublime_plugin.TextCommand):
                     else:
                         printPage = "<checkbox label=\"%s\" atleast=\"1\">\n  <title>%s</title>\n  %s\n</checkbox>\n<suspend/>" % (label.strip(), title.strip(), output)
                 self.view.replace(edit,sel, printPage)
-        except Exception, e:
-            print e
+        except Exception:
+            print (e)
 
 class makeSelectCommand(sublime_plugin.TextCommand):
     def run (self,edit):
@@ -730,8 +730,8 @@ class makeSelectCommand(sublime_plugin.TextCommand):
                 printPage = "<select label=\"%s\" optional=\"0\">\n  <title>%s</title>  %s\n</select>\n<suspend/>" % (label.strip(), title.strip(), output)
 
                 self.view.replace(edit,sel, printPage)
-        except Exception, e:
-            print e
+        except Exception:
+            print (e)
 
 class makeTextareaCommand(sublime_plugin.TextCommand):
     def run (self,edit):
@@ -765,9 +765,9 @@ class makeTextareaCommand(sublime_plugin.TextCommand):
                         printPage = "<textarea label=\"%s\" optional=\"0\">\n  <title>%s</title>\n%s</textarea>\n<suspend/>" % (label.strip(), title.strip(), output)
 
                 self.view.replace(edit,sel, printPage)
-        except Exception, e:
-            print "makeTextarea failed"
-            print e
+        except Exception:
+        
+            print (e)
 
 class makeTextCommand(sublime_plugin.TextCommand):
     def run (self,edit):
@@ -817,8 +817,8 @@ class makeTextCommand(sublime_plugin.TextCommand):
 
 
                 self.view.replace(edit,sel, printPage)
-        except Exception, e:
-            print e
+        except Exception:
+            print (e)
 
 class makeNumberCommand(sublime_plugin.TextCommand):
     def run (self,edit):
@@ -852,8 +852,8 @@ class makeNumberCommand(sublime_plugin.TextCommand):
                         printPage = "<number label=\"%s\" size=\"3\" optional=\"0\">\n  <title>%s</title>\n%s</number>\n<suspend/>" % (label.strip(), title.strip(), output)
                 
                 self.view.replace(edit,sel, printPage)
-        except Exception, e:
-            print e
+        except Exception:
+            print (e)
 
 class makePipeCommand(sublime_plugin.TextCommand):
     def run (self,edit):
@@ -875,9 +875,9 @@ class makePipeCommand(sublime_plugin.TextCommand):
                 printPage = "<pipe label=\"\" capture=\"\">\n  %s\n</pipe>\n" % (output)
 
                 self.view.replace(edit,sel, printPage)
-        except Exception, e:
-            print 'make pipe failed'
-            print e
+        except Exception:
+            
+            print (e)
 ############# QUESTION ELEMENTS ######################
 class makeRowCommand(sublime_plugin.TextCommand):
     def run(self, edit):
@@ -917,8 +917,8 @@ class makeRowCommand(sublime_plugin.TextCommand):
                 # thanks to replace the regions keep updated with their start and end point
                 self.view.replace(edit,sel, printPage)
 
-        except Exception, e:
-            print e
+        except Exception:
+            print (e)
 
 
 
@@ -962,8 +962,8 @@ class makeRowrCommand(sublime_plugin.TextCommand):
                 # thanks to replace the regions keep updated with their start and end point
                 self.view.replace(edit,sel, printPage)
 
-        except Exception, e:
-            print e
+        except Exception:
+            print (e)
 
 
 
@@ -991,7 +991,7 @@ class makeRowsMatchLabelCommand(sublime_plugin.TextCommand):
                 count = 0
                 for line in input:
                      line = line.strip()
-                     print line
+                     
                      #SPLIT ON WHITESPACE -- REMOVE LEADING AND TRAILING WS
                      parts = re.split(r"\s",line,1) 
 
@@ -1022,8 +1022,8 @@ class makeRowsMatchLabelCommand(sublime_plugin.TextCommand):
                        printPage += "  <row label=\"r%s\"%s>%s</row>\n" % (str(count), extra, line)
 
                 self.view.replace(edit,sel, printPage)
-        except Exception, e:
-            print e
+        except Exception:
+            print (e)
 
 class makeRowsMatchValuesCommand(sublime_plugin.TextCommand):
     def run (self,edit):
@@ -1043,7 +1043,7 @@ class makeRowsMatchValuesCommand(sublime_plugin.TextCommand):
                 #ITERATE ROWS
                 for line in input:
                      line = line.strip()
-                     print line
+                     
                      #SPLIT ON WHITESPACE -- REMOVE LEADING AND TRAILING WS
                      parts = re.split(r"\s",line,1) 
 
@@ -1065,8 +1065,8 @@ class makeRowsMatchValuesCommand(sublime_plugin.TextCommand):
                      printPage += "  <row label=\"r%s\" value=\"%s\"%s>%s</row>\n" % (ordinal,ordinal, extra, content)
 
                 self.view.replace(edit,sel, printPage)
-        except Exception, e:
-            print e
+        except Exception:
+            print (e)
 
 class makeColsCommand(sublime_plugin.TextCommand):
     def run (self,edit):
@@ -1099,8 +1099,8 @@ class makeColsCommand(sublime_plugin.TextCommand):
                     count += 1
 
                 self.view.replace(edit,sel, printPage)
-        except Exception, e:
-            print e
+        except Exception:
+            print (e)
 
 class makeColsMatchLabelCommand(sublime_plugin.TextCommand):
     def run (self,edit):
@@ -1149,8 +1149,8 @@ class makeColsMatchLabelCommand(sublime_plugin.TextCommand):
                        printPage += "  <col label=\"c%s\"%s>%s</col>\n" % (str(count), extra, line)
 
                 self.view.replace(edit,sel, printPage)
-        except Exception, e:
-            print e
+        except Exception:
+            print (e)
 
 class makeColsMatchValueCommand(sublime_plugin.TextCommand):
     def run (self,edit):
@@ -1192,8 +1192,8 @@ class makeColsMatchValueCommand(sublime_plugin.TextCommand):
                      printPage += "  <col label=\"c%s\" value=\"%s\"%s>%s</col>\n" % (ordinal,ordinal, extra, content)
 
                 self.view.replace(edit,sel, printPage)
-        except Exception, e:
-            print e
+        except Exception:
+            print (e)
 
 class makeChoicesCommand(sublime_plugin.TextCommand):
     def run (self,edit):
@@ -1215,8 +1215,8 @@ class makeChoicesCommand(sublime_plugin.TextCommand):
                     printPage += "  <choice label=\"ch%s\">%s</choice>\n" % (str(count+1), input[count].strip())
                     count += 1
             self.view.replace(edit,sel, printPage)
-        except Exception, e:
-            print e
+        except Exception:
+            print (e)
 
 class makeCasesCommand(sublime_plugin.TextCommand):
     def run (self,edit):
@@ -1237,8 +1237,8 @@ class makeCasesCommand(sublime_plugin.TextCommand):
                     count += 1
                 printPage += "  <case label=\"r%s\" cond=\"1\">UNDEFINED</case>" % (str(count+1))
             self.view.replace(edit,sel, printPage)
-        except Exception, e:
-            print e
+        except Exception:
+            print (e)
 
 class makeGroupsCommand(sublime_plugin.TextCommand):
     def run (self,edit):
@@ -1256,8 +1256,8 @@ class makeGroupsCommand(sublime_plugin.TextCommand):
                 for x in range(len(input)):
                     printPage += "  <group label=\"g" + str(x+1) + "\">" + re.sub(r"^[a-zA-Z0-9]+(\.|:)|^[a-zA-Z0-9]+[a-zA-Z0-9]+(\.|:)", "", input[x]).strip() + "</group>\n"
             self.view.replace(edit,sel, printPage)
-        except Exception, e:
-            print e
+        except Exception:
+            print (e)
 
 class makeLoopBlockCommand(sublime_plugin.TextCommand):
     def run (self,edit):
@@ -1289,8 +1289,8 @@ class makeLoopBlockCommand(sublime_plugin.TextCommand):
             """ % input
 
                 self.view.replace(edit,sel, printPage)
-        except Exception, e:
-            print e
+        except Exception:
+            print (e)
 
 
 class makeSwitchCommand(sublime_plugin.TextCommand):
@@ -1318,8 +1318,8 @@ class makeSwitchCommand(sublime_plugin.TextCommand):
 
                 vrange = "\n".join(vrange)
                 self.view.replace(edit,sel, vrange)
-        except Exception, e:
-            print e
+        except Exception:
+            print (e)
 
 class makeCommentCommand(sublime_plugin.TextCommand):
     def run (self,edit):
@@ -1336,7 +1336,7 @@ class makeCommentCommand(sublime_plugin.TextCommand):
                 printPage = "<html label=\"\" where=\"survey\">%s</html>" % input
 
                 self.view.replace(edit,sel, printPage)
-        except Exception, e:
-            print e
+        except Exception:
+            print (e)
 
 
